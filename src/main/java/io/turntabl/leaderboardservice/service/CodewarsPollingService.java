@@ -23,7 +23,6 @@ public class CodewarsPollingService {
         profileRepository.findAll().stream()
                 .map(Profile::getId)
                 .map(codewarsClient::getUser)
-                .filter(Objects::nonNull)
                 .map(userDtoToProfileConverter::convert)
                 .forEach(profileRepository::save);
     }
