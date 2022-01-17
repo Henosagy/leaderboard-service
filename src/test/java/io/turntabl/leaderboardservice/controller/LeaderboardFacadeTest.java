@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -41,15 +42,15 @@ class LeaderboardFacadeTest {
                 .username("lameiraatt")
                 .name("Ana Lameira")
                 .build();
+        List<ProfileDto> expectedResult = List.of(profileDto);
 
-        List<ProfileDto> result = List.of(profileDto);
-
-        when(leaderboardRepositoryService
-                .getProfiles().stream()
+        when(leaderboardRepositoryService.getProfiles().stream()
                 .map(profileToProfileDtoConverter::convert)
-                .collect(Collectors.toList()));
+                .collect(toList()))
+                .thenReturn(expectedResult);
 
-        assertTrue(result.contains(profileDto));
+
+        assertTrue(expectedResult.contains(profileDto));
 
     }
 }
